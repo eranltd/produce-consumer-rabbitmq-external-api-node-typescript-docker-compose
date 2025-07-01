@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:latest
+    container_name: my_postgres_container
+    restart: always
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:4.0.9-management
+    container_name: my_rabbitmq_container
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      # This line lowers the server's minimum frame size requirement
+      RABBITMQ_ADVANCED_CONFIG: '[{rabbit, [{min_frame_max, 4096}]}]'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      
+
+volumes:
+  postgres_data:

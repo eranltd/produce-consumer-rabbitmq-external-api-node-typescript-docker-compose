@@ -1,0 +1,43 @@
+{
+  "name": "data-management-interview",
+  "version": "1.0.0",
+  "description": "- Public repository with the data management team's technical interview assignment inside    ---",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "publish": "node ./dist/publisher.js",
+    "publish-ts": "ts-node src/publisher.ts",
+    "consumer": "node ./dist/consumer.js",
+    "consumer-ts": "ts-node src/consumer.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dataloop-ai/data-managment-interview.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dataloop-ai/data-managment-interview/issues"
+  },
+  "homepage": "https://github.com/dataloop-ai/data-managment-interview#readme",
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "axios": "^1.3.2",
+    "kafkajs": "^2.2.3",
+    "knex": "^3.1.0",
+    "knex-upsert": "^0.0.4",
+    "lodash": "^4.17.21",
+    "mongodb": "^5.0.1",
+    "mysql2": "^3.1.2",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@google-cloud/translate": "^7.1.0",
+    "@types/amqplib": "^0.10.1",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^24.0.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
