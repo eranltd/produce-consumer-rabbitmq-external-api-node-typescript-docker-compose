@@ -47,7 +47,7 @@ class QueueService {
             await this.channel.consume(this.queueName, (msg) => {
                 if (msg !== null) {
                     const messageContent = msg.content.toString();
-                    console.log(`Message received from queue "${this.queueName}":`, messageContent);
+                    console.log(`Message received from queue "${this.queueName}" Preview:`, messageContent.substring(0, 50) + '...');
                     onMessage(messageContent);
                     this.channel?.ack(msg);
                 }
