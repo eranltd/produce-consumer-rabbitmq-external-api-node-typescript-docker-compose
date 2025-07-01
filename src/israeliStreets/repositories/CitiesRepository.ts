@@ -1,4 +1,5 @@
 import { DB } from "../DB"
+import { Street } from "../StreetsService";
 
 export default class extends DB {
     private readonly _cache
@@ -6,7 +7,7 @@ export default class extends DB {
       super(db)
     }
   
-    async addCityWithStreets({ city, streets }) { //todo covert street or city name to english
+    async addCityWithStreets({ city, streets }:{city:string, streets: Array<Street & {name:string}>}) { //todo covert street or city name to english
         try{
             let cityId;
 
@@ -24,7 +25,7 @@ export default class extends DB {
                     .insert({
                         city_name: city,
                         country: 'Israel',
-                        population: 0
+                        population: 0,
                     })
                     .returning('city_id');
                 console.log('City added with ID:', cityId);
@@ -32,14 +33,20 @@ export default class extends DB {
 
             console.log('City added with ID:', cityId);
 
-        const streetRecords : Array<Record<string,string>>= streets.map(street => ({
+        const streetRecords = streets.map(street => ({
             city_id: cityId, // Foreign key reference to the city
+            city_code: street.city_code,
             street_id: street.streetId, //may cause problems if streetId is not unique
-            street_name: street.name || 'not-available', // Default to 'not-available' if name is not provided
+            street_name: street.name || street.street_name || '',
+            official_code: street.official_code || 0, // Default to 0 if official_code is not provided
+            region_code: street.region_code || 0, // Default to 0 if region_code is not provided
+            region_name: street.region_name || '',
+            street_code: street.street_code || 0, // Default to 0 if street_code is not provided
+            street_name_status: street.street_name_status || '',
         }));
 
 
-        //TODO: insert transaction wrapper, and insert in batches
+        //TODO: insert transaction wrapper, and insert in batches, kept things like that for simplicity
 
         const existingStreets= streetRecords
 

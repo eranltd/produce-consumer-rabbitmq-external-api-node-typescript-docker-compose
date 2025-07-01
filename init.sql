@@ -18,7 +18,7 @@ SET search_path TO interviewdb, public;
 CREATE TABLE cities (
     city_id SERIAL PRIMARY KEY,
     city_name VARCHAR(255) NOT NULL UNIQUE,
-    city_code INT,
+    -- city_code INT,
     country VARCHAR(100),
     population INT
 );
@@ -30,6 +30,7 @@ CREATE TABLE streets (
     , region_code INT
     , region_name VARCHAR(255)
     , city_id INT NOT NULL REFERENCES cities(city_id)
+    , city_code INT -- This should be on the cities table, but kept here for simplicity
     , street_code INT
     , street_name VARCHAR(255)
     , street_name_status VARCHAR(255)

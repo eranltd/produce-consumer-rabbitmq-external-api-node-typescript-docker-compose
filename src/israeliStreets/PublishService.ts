@@ -8,7 +8,40 @@ export class PublishingService {
 
     async publishData(streetName: city): Promise<void> {
         try {
-            const data : CitiesAPIResponse= await StreetsService.getStreetsInCity(streetName);
+            const data = await StreetsService.getStreetsInCity(streetName);
+
+            if (data && data.streets && data.streets.length > 0) {
+                const enrichedStreets = await Promise.all(
+                    data.streets.map(async street => {
+                        try {
+                            const info = await StreetsService.getStreetInfoById(street.streetId);
+                            for (const key in info) { //trim all string fields
+                                if (typeof info[key] === 'string') {
+                                    info[key] = info[key].trim();
+                                }
+                            }
+
+                            for (const key in street) { //trim all string fields
+                                if (typeof street[key] === 'string') {
+                                    street[key] = street[key].trim();
+                                }
+                            }
+                            return {
+                                ...street,
+                                ...info
+                            };
+                        } catch (error) {
+                            console.error(`Failed to enrich street with ID ${street.streetId}:`, error);
+                            return street; // Return original street data if enrichment fails
+                        }
+                    })
+                );
+                data.streets = enrichedStreets;
+            }
+
+
+
+
             // const englishName = enlishNameByCity[streetName];
 
             // if (!data || !data.streets || data.streets.length === 0) {

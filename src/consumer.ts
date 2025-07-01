@@ -45,21 +45,21 @@ async function main() {
                     await citiesRepository.addCityWithStreets(data)
                 }
 
-    // setInterval(async () => {
+    setInterval(async () => {
         try {
             await queueService.consumeMessage(onMessage); //Array<{name, streetId} //TODO: inside consumeMessage, check connection status make a fail safe mechanism to connect on failure 
             //             console.log('Message consumed successfully.');
         } catch (error) {
             console.error('Error consuming message:', error);
         }
-    // }, 5000); // Call every 5 seconds
+    }, 5000); // Call every 5 seconds
 
 
 
-    // Simulate an always-running app
-    // setInterval(() => {
-    //     console.log('App is still running...');
-    // }, 60000); // Log every minute
+    //Simulate an always-running app
+    setInterval(() => {
+        console.log('App is still running...');
+    }, 60000); // Log every minute
 }
 
 // Start the app
