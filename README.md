@@ -163,8 +163,8 @@ Below are two short GIFs demonstrating the entire process:
 
 ## TODOs
 
-- Add linter
-- Add formatter
+- [x] Add linter (Biome)
+- [x] Add formatter (Biome)
 - Add rate limiter
 - Add graceful shutdown
 - Add tests

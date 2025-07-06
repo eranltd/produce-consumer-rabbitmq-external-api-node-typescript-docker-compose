@@ -6,10 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "publish": "node ./dist/publisher.js",
-    "publish-ts": "ts-node src/publisher.ts",
+    "producer": "node ./dist/producer.js",
+    "producer-ts": "ts-node src/producer.ts",
     "consumer": "node ./dist/consumer.js",
-    "consumer-ts": "ts-node src/consumer.ts"
+    "consumer-ts": "ts-node src/consumer.ts",
+    "retry-failure-producer-ts": "ts-node src/retry-failure-producer.ts",
+    "retry-failure-producer": "node ./dist/retry-failure-producer.js",
+    "format": "biome format --write ./src"
   },
   "repository": {
     "type": "git",
@@ -33,6 +36,7 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.0.6",
     "@google-cloud/translate": "^7.1.0",
     "@types/amqplib": "^0.10.1",
     "@types/mongodb": "^4.0.7",

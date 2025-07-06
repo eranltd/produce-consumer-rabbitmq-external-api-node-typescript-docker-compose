@@ -10,9 +10,8 @@ export default class extends DB {
     async addCityWithStreets({ city, streets }:{city:string, streets: Array<Street & {name:string}>}) { //todo covert street or city name to english
         try{
             let cityId;
-
+            // The schema is now set in the knex config, so .withSchema() is not needed.
             const existingCity = await this.dbConnection()('cities')
-                .withSchema('interviewdb')
                 .where({ city_name: city })
                 .first();
 
@@ -20,18 +19,16 @@ export default class extends DB {
                 cityId = existingCity.city_id;
                 console.log('City already exists with ID:', cityId);
             } else {
-                [cityId] = await this.dbConnection()('cities')
-                    .withSchema('interviewdb')
+                const newCity = await this.dbConnection()('cities')
                     .insert({
                         city_name: city,
                         country: 'Israel',
                         population: 0,
                     })
                     .returning('city_id');
+                cityId = newCity[0].city_id;
                 console.log('City added with ID:', cityId);
             }
-
-            console.log('City added with ID:', cityId);
 
         const streetRecords = streets.map(street => ({
             city_id: cityId, // Foreign key reference to the city
@@ -51,7 +48,6 @@ export default class extends DB {
         const existingStreets= streetRecords
 
         await this.dbConnection()('streets')
-            .withSchema('interviewdb')
             .insert(existingStreets);
             
             console.log('Streets added for city ID:', cityId);
@@ -68,7 +64,6 @@ export default class extends DB {
 
     async getCityByName (cityName, trx) {
         return this.dbConnection(trx)('cities')
-            .withSchema('interviewdb')
             .where({ name: cityName })
             .first()
         }}
